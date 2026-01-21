@@ -202,10 +202,7 @@
                 
                 Plotly.newPlot('chart', [trace], layout, {responsive: true});
                 
-                // 更新日時を表示
                 updateTimestamp();
-                
-                // 30分後の自動更新をセット
                 resetAutoUpdate();
                 
             } catch (error) {
@@ -284,21 +281,16 @@
         }
         
         function resetAutoUpdate() {
-            // 既存のタイマーをクリア
             if (autoUpdateTimer) {
                 clearTimeout(autoUpdateTimer);
             }
             
-            // 30分後に自動更新
             autoUpdateTimer = setTimeout(() => {
                 fetchStockData();
-            }, 30 * 60 * 1000); // 30分 = 1800000ミリ秒
+            }, 30 * 60 * 1000);
         }
         
-        // ページ読み込み時に初回実行
         window.addEventListener('load', fetchStockData);
-        
-        // 期間変更時も更新
         document.getElementById('period').addEventListener('change', fetchStockData);
     </script>
 </body>
