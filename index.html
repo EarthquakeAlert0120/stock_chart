@@ -3,52 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>日清オイリオ 株価チャート</title>
+    <title>株価チャート</title>
     <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
     <style>
         body {
             font-family: sans-serif;
-            max-width: 1400px;
+            max-width: 95%;
             margin: 0 auto;
-            padding: 20px;
+            padding: 40px;
             background-color: #f5f5f5;
         }
         h1 {
             color: #1565c0;
             text-align: center;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 80px;
         }
         .subtitle {
             text-align: center;
             color: #666;
-            font-size: 14px;
-            margin-bottom: 20px;
+            font-size: 36px;
+            margin-bottom: 30px;
         }
         .header-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
         .update-time {
             color: #666;
-            font-size: 12px;
+            font-size: 28px;
             text-align: right;
         }
         .controls {
             text-align: center;
-            margin: 20px 0;
+            margin: 30px 0;
             background: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         select, button {
-            padding: 10px 20px;
-            font-size: 16px;
-            margin: 5px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            padding: 20px 40px;
+            font-size: 32px;
+            margin: 10px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
         }
         button {
             background: #1565c0;
@@ -61,36 +62,36 @@
         }
         #chart {
             background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         .info {
             background: white;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 40px;
+            margin: 30px 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         .price-info {
             display: flex;
             justify-content: space-around;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 20px;
         }
         .price-box {
-            padding: 15px;
+            padding: 30px;
             background: #f5f5f5;
-            border-radius: 8px;
-            min-width: 140px;
+            border-radius: 12px;
+            min-width: 280px;
             text-align: center;
         }
         .price-label {
-            font-size: 14px;
+            font-size: 32px;
             color: #666;
-            margin-bottom: 5px;
+            margin-bottom: 15px;
         }
         .price-value {
-            font-size: 28px;
+            font-size: 56px;
             font-weight: bold;
             color: #1565c0;
         }
@@ -98,8 +99,22 @@
         .price-value.negative { color: #42a5f5; }
         .loading {
             text-align: center;
-            padding: 40px;
+            padding: 60px;
             color: #666;
+            font-size: 36px;
+        }
+        .error-box {
+            background: #ffebee;
+            border: 4px solid #f44336;
+            padding: 40px;
+            margin: 30px 0;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .error-text {
+            color: #c62828;
+            font-size: 32px;
+            margin: 15px 0;
         }
     </style>
 </head>
@@ -123,13 +138,15 @@
         <button onclick="fetchStockData()">🔄 更新</button>
     </div>
     
+    <div id="errorBox" style="display: none;"></div>
+    
     <div class="info">
         <div class="price-info" id="priceInfo">
             <div class="loading">データ読み込み中...</div>
         </div>
     </div>
     
-    <div id="chart" style="width:100%; height:600px;"></div>
+    <div id="chart" style="width:100%; height:900px;"></div>
 
     <script>
         let autoUpdateTimer = null;
@@ -141,82 +158,127 @@
             const period2 = Math.floor(Date.now() / 1000);
             
             const apiUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?period1=${period1}&period2=${period2}&interval=1d`;
-            const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(apiUrl)}`;
             
-            try {
-                const response = await fetch(proxyUrl);
+            const proxies = [
+                `https://api.allorigins.win/raw?url=${encodeURIComponent(apiUrl)}`,
+                `https://corsproxy.io/?${encodeURIComponent(apiUrl)}`,
+                apiUrl
+            ];
+            
+            const errorBox = document.getElementById('errorBox');
+            errorBox.style.display = 'none';
+            
+            for (let i = 0; i < proxies.length; i++) {
+                const proxyUrl = proxies[i];
                 
-                if (!response.ok) {
-                    throw new Error(`データ取得に失敗しました`);
+                try {
+                    const response = await fetch(proxyUrl);
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    
+                    if (data.chart?.error) {
+                        throw new Error(data.chart.error.description);
+                    }
+                    
+                    if (!data.chart?.result?.[0]) {
+                        throw new Error('株価データが見つかりません');
+                    }
+                    
+                    const result = data.chart.result[0];
+                    const timestamps = result.timestamp;
+                    const quotes = result.indicators.quote[0];
+                    
+                    if (!timestamps || !quotes) {
+                        throw new Error('データ形式が不正です');
+                    }
+                    
+                    const dates = timestamps.map(ts => {
+                        const date = new Date(ts * 1000);
+                        return date.toISOString().split('T')[0];
+                    });
+                    
+                    displayPriceInfo(quotes, dates);
+                    
+                    const trace = {
+                        x: dates,
+                        open: quotes.open,
+                        high: quotes.high,
+                        low: quotes.low,
+                        close: quotes.close,
+                        type: 'candlestick',
+                        increasing: {
+                            line: {color: '#ef5350', width: 2}
+                        },
+                        decreasing: {
+                            line: {color: '#42a5f5', width: 2}
+                        }
+                    };
+                    
+                    const layout = {
+                        title: {
+                            text: '2602 日清オイリオグループ 株価推移',
+                            font: {size: 48}
+                        },
+                        xaxis: {
+                            title: {
+                                text: '日付',
+                                font: {size: 32}
+                            },
+                            rangeslider: {visible: false},
+                            tickfont: {size: 24}
+                        },
+                        yaxis: {
+                            title: {
+                                text: '株価（円）',
+                                font: {size: 32}
+                            },
+                            tickfont: {size: 24}
+                        },
+                        height: 900,
+                        paper_bgcolor: 'white',
+                        plot_bgcolor: '#fafafa',
+                        font: {size: 24}
+                    };
+                    
+                    Plotly.newPlot('chart', [trace], layout, {responsive: true});
+                    
+                    updateTimestamp();
+                    resetAutoUpdate();
+                    
+                    return;
+                    
+                } catch (error) {
+                    if (i === proxies.length - 1) {
+                        showError(error.message);
+                    }
                 }
-                
-                const data = await response.json();
-                
-                if (data.chart?.error) {
-                    throw new Error(data.chart.error.description);
-                }
-                
-                if (!data.chart?.result?.[0]) {
-                    throw new Error('株価データが見つかりませんでした');
-                }
-                
-                const result = data.chart.result[0];
-                const timestamps = result.timestamp;
-                const quotes = result.indicators.quote[0];
-                
-                if (!timestamps || !quotes) {
-                    throw new Error('データ形式が不正です');
-                }
-                
-                const dates = timestamps.map(ts => {
-                    const date = new Date(ts * 1000);
-                    return date.toISOString().split('T')[0];
-                });
-                
-                displayPriceInfo(quotes, dates);
-                
-                const trace = {
-                    x: dates,
-                    open: quotes.open,
-                    high: quotes.high,
-                    low: quotes.low,
-                    close: quotes.close,
-                    type: 'candlestick',
-                    increasing: {line: {color: '#ef5350'}},
-                    decreasing: {line: {color: '#42a5f5'}}
-                };
-                
-                const layout = {
-                    title: '2602 日清オイリオグループ 株価推移',
-                    xaxis: {
-                        title: '日付',
-                        rangeslider: {visible: false}
-                    },
-                    yaxis: {
-                        title: '株価（円）'
-                    },
-                    height: 600,
-                    paper_bgcolor: 'white',
-                    plot_bgcolor: '#fafafa'
-                };
-                
-                Plotly.newPlot('chart', [trace], layout, {responsive: true});
-                
-                updateTimestamp();
-                resetAutoUpdate();
-                
-            } catch (error) {
-                console.error('エラー:', error);
-                
-                document.getElementById('priceInfo').innerHTML = `
-                    <div class="price-box">
-                        <div class="price-label" style="color: #f44336;">データ取得失敗</div>
-                        <div class="price-value" style="font-size: 16px; color: #666;">
-                            しばらくしてから再度お試しください
-                        </div>
-                    </div>
-                `;
             }
+        }
+        
+        function showError(message) {
+            const errorBox = document.getElementById('errorBox');
+            errorBox.className = 'error-box';
+            errorBox.style.display = 'block';
+            errorBox.innerHTML = `
+                <div class="error-text">❌ データ取得に失敗しました</div>
+                <div class="error-text">${message}</div>
+                <button onclick="fetchStockData()" style="margin-top: 20px; padding: 20px 40px; background: #1565c0; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 32px;">
+                    再試行
+                </button>
+            `;
+            
+            document.getElementById('priceInfo').innerHTML = `
+                <div class="price-box">
+                    <div class="price-label" style="color: #f44336;">データ取得失敗</div>
+                    <div class="price-value" style="font-size: 32px; color: #666;">
+                        上記のボタンで再試行してください
+                    </div>
+                </div>
+            `;
         }
         
         function displayPriceInfo(quotes, dates) {
@@ -225,7 +287,7 @@
                 .filter(i => i !== -1);
             
             if (validIndices.length === 0) {
-                document.getElementById('priceInfo').innerHTML = '<p>有効なデータがありません</p>';
+                document.getElementById('priceInfo').innerHTML = '<p style="font-size: 36px;">有効なデータがありません</p>';
                 return;
             }
             
@@ -249,7 +311,7 @@
                     <div class="price-label">前日比</div>
                     <div class="price-value ${changeClass}">
                         ${changeSymbol}${change.toFixed(2)} 円<br>
-                        <span style="font-size: 20px;">(${changeSymbol}${changePercent}%)</span>
+                        <span style="font-size: 42px;">(${changeSymbol}${changePercent}%)</span>
                     </div>
                 </div>
                 <div class="price-box">
