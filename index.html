@@ -10,46 +10,46 @@
             font-family: sans-serif;
             max-width: 95%;
             margin: 0 auto;
-            padding: 40px;
+            padding: 30px;
             background-color: #f5f5f5;
         }
         h1 {
             color: #1565c0;
             text-align: center;
-            margin-bottom: 20px;
-            font-size: 80px;
+            margin-bottom: 10px;
+            font-size: 52px;
         }
         .subtitle {
             text-align: center;
             color: #666;
-            font-size: 36px;
-            margin-bottom: 30px;
+            font-size: 24px;
+            margin-bottom: 20px;
         }
         .header-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
         .update-time {
             color: #666;
-            font-size: 28px;
+            font-size: 20px;
             text-align: right;
         }
         .controls {
             text-align: center;
-            margin: 30px 0;
+            margin: 20px 0;
             background: white;
-            padding: 30px;
-            border-radius: 12px;
+            padding: 20px;
+            border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         select, button {
-            padding: 20px 40px;
-            font-size: 32px;
-            margin: 10px;
+            padding: 12px 24px;
+            font-size: 24px;
+            margin: 5px;
             border: 2px solid #ccc;
-            border-radius: 8px;
+            border-radius: 6px;
         }
         button {
             background: #1565c0;
@@ -62,36 +62,37 @@
         }
         #chart {
             background: white;
-            border-radius: 12px;
+            border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
         }
         .info {
             background: white;
-            padding: 40px;
-            margin: 30px 0;
-            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         .price-info {
             display: flex;
             justify-content: space-around;
             flex-wrap: wrap;
-            gap: 20px;
+            gap: 15px;
         }
         .price-box {
-            padding: 30px;
+            padding: 20px;
             background: #f5f5f5;
-            border-radius: 12px;
-            min-width: 280px;
+            border-radius: 10px;
+            min-width: 200px;
             text-align: center;
         }
         .price-label {
-            font-size: 32px;
+            font-size: 20px;
             color: #666;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
         .price-value {
-            font-size: 56px;
+            font-size: 36px;
             font-weight: bold;
             color: #1565c0;
         }
@@ -99,22 +100,22 @@
         .price-value.negative { color: #42a5f5; }
         .loading {
             text-align: center;
-            padding: 60px;
+            padding: 40px;
             color: #666;
-            font-size: 36px;
+            font-size: 24px;
         }
         .error-box {
             background: #ffebee;
-            border: 4px solid #f44336;
-            padding: 40px;
-            margin: 30px 0;
-            border-radius: 12px;
+            border: 3px solid #f44336;
+            padding: 30px;
+            margin: 20px 0;
+            border-radius: 10px;
             text-align: center;
         }
         .error-text {
             color: #c62828;
-            font-size: 32px;
-            margin: 15px 0;
+            font-size: 22px;
+            margin: 10px 0;
         }
     </style>
 </head>
@@ -146,7 +147,7 @@
         </div>
     </div>
     
-    <div id="chart" style="width:100%; height:900px;"></div>
+    <div id="chart" style="width:100%; height:700px;"></div>
 
     <script>
         let autoUpdateTimer = null;
@@ -211,37 +212,42 @@
                         close: quotes.close,
                         type: 'candlestick',
                         increasing: {
-                            line: {color: '#ef5350', width: 2}
+                            line: {color: '#ef5350', width: 1.5}
                         },
                         decreasing: {
-                            line: {color: '#42a5f5', width: 2}
+                            line: {color: '#42a5f5', width: 1.5}
                         }
                     };
                     
                     const layout = {
                         title: {
                             text: '2602 日清オイリオグループ 株価推移',
-                            font: {size: 48}
+                            font: {size: 32}
                         },
                         xaxis: {
                             title: {
                                 text: '日付',
-                                font: {size: 32}
+                                font: {size: 22}
                             },
                             rangeslider: {visible: false},
-                            tickfont: {size: 24}
+                            tickfont: {size: 18}
                         },
                         yaxis: {
                             title: {
                                 text: '株価（円）',
-                                font: {size: 32}
+                                font: {size: 22}
                             },
-                            tickfont: {size: 24}
+                            tickfont: {size: 18}
                         },
-                        height: 900,
+                        height: 700,
                         paper_bgcolor: 'white',
                         plot_bgcolor: '#fafafa',
-                        font: {size: 24}
+                        margin: {
+                            l: 80,
+                            r: 50,
+                            t: 80,
+                            b: 80
+                        }
                     };
                     
                     Plotly.newPlot('chart', [trace], layout, {responsive: true});
@@ -266,7 +272,7 @@
             errorBox.innerHTML = `
                 <div class="error-text">❌ データ取得に失敗しました</div>
                 <div class="error-text">${message}</div>
-                <button onclick="fetchStockData()" style="margin-top: 20px; padding: 20px 40px; background: #1565c0; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 32px;">
+                <button onclick="fetchStockData()" style="margin-top: 15px; padding: 12px 24px; background: #1565c0; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 20px;">
                     再試行
                 </button>
             `;
@@ -274,7 +280,7 @@
             document.getElementById('priceInfo').innerHTML = `
                 <div class="price-box">
                     <div class="price-label" style="color: #f44336;">データ取得失敗</div>
-                    <div class="price-value" style="font-size: 32px; color: #666;">
+                    <div class="price-value" style="font-size: 22px; color: #666;">
                         上記のボタンで再試行してください
                     </div>
                 </div>
@@ -287,7 +293,7 @@
                 .filter(i => i !== -1);
             
             if (validIndices.length === 0) {
-                document.getElementById('priceInfo').innerHTML = '<p style="font-size: 36px;">有効なデータがありません</p>';
+                document.getElementById('priceInfo').innerHTML = '<p style="font-size: 24px;">有効なデータがありません</p>';
                 return;
             }
             
@@ -311,7 +317,7 @@
                     <div class="price-label">前日比</div>
                     <div class="price-value ${changeClass}">
                         ${changeSymbol}${change.toFixed(2)} 円<br>
-                        <span style="font-size: 42px;">(${changeSymbol}${changePercent}%)</span>
+                        <span style="font-size: 28px;">(${changeSymbol}${changePercent}%)</span>
                     </div>
                 </div>
                 <div class="price-box">
