@@ -20,7 +20,7 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: #333;
             min-height: 100vh;
-            padding: 20px;
+            padding: clamp(10px, 1vw, 20px);
         }
 
         .container {
@@ -31,40 +31,40 @@
         /* ヘッダー部: 株価情報 */
         .stock-header {
             background: white;
-            border-radius: 25px;
-            padding: clamp(30px, 3vw, 60px);
-            margin-bottom: clamp(20px, 2vw, 40px);
+            border-radius: 20px;
+            padding: clamp(20px, 1.5vw, 35px);
+            margin-bottom: clamp(15px, 1.2vw, 25px);
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
         }
 
         .company-info {
             display: flex;
             align-items: center;
-            gap: clamp(15px, 2vw, 40px);
-            margin-bottom: clamp(20px, 2.5vw, 50px);
+            gap: clamp(15px, 1.5vw, 30px);
+            margin-bottom: clamp(15px, 1.2vw, 25px);
             flex-wrap: wrap;
         }
 
         .company-info h1 {
-            font-size: clamp(32px, 5vw, 120px);
+            font-size: clamp(28px, 2.8vw, 58px);
             font-weight: 700;
             color: #1a1a1a;
         }
 
         .symbol {
-            font-size: clamp(18px, 2.5vw, 56px);
+            font-size: clamp(16px, 1.6vw, 32px);
             color: #666;
             background: #f0f0f0;
-            padding: clamp(8px, 1vw, 20px) clamp(20px, 2vw, 40px);
-            border-radius: 12px;
+            padding: clamp(6px, 0.6vw, 12px) clamp(15px, 1.2vw, 25px);
+            border-radius: 10px;
             font-weight: 600;
         }
 
         .price-info {
             display: flex;
             align-items: baseline;
-            gap: clamp(20px, 3vw, 60px);
-            margin-bottom: clamp(25px, 3vw, 60px);
+            gap: clamp(20px, 2vw, 40px);
+            margin-bottom: clamp(20px, 1.5vw, 35px);
             flex-wrap: wrap;
         }
 
@@ -74,14 +74,14 @@
         }
 
         .price-label {
-            font-size: clamp(16px, 2vw, 42px);
+            font-size: clamp(14px, 1.4vw, 28px);
             color: #666;
-            margin-bottom: clamp(5px, 1vw, 15px);
+            margin-bottom: clamp(5px, 0.5vw, 10px);
             font-weight: 600;
         }
 
         .price {
-            font-size: clamp(48px, 7vw, 140px);
+            font-size: clamp(40px, 4vw, 80px);
             font-weight: 700;
             color: #1a1a1a;
             line-height: 1.1;
@@ -90,12 +90,12 @@
         .price-change {
             display: flex;
             flex-direction: column;
-            gap: clamp(5px, 1vw, 15px);
+            gap: clamp(5px, 0.5vw, 10px);
         }
 
         .change,
         .change-percent {
-            font-size: clamp(24px, 3.5vw, 80px);
+            font-size: clamp(20px, 2vw, 42px);
             font-weight: 600;
         }
 
@@ -113,27 +113,27 @@
 
         .additional-info {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(clamp(200px, 20vw, 400px), 1fr));
-            gap: clamp(20px, 2.5vw, 50px);
-            padding: clamp(20px, 2.5vw, 50px) 0;
-            border-top: 3px solid #f0f0f0;
-            border-bottom: 3px solid #f0f0f0;
+            grid-template-columns: repeat(auto-fit, minmax(clamp(180px, 15vw, 280px), 1fr));
+            gap: clamp(15px, 1.5vw, 30px);
+            padding: clamp(15px, 1.5vw, 30px) 0;
+            border-top: 2px solid #f0f0f0;
+            border-bottom: 2px solid #f0f0f0;
         }
 
         .info-item {
             display: flex;
             flex-direction: column;
-            gap: clamp(8px, 1vw, 20px);
+            gap: clamp(5px, 0.5vw, 10px);
         }
 
         .info-label {
-            font-size: clamp(16px, 2vw, 42px);
+            font-size: clamp(14px, 1.4vw, 28px);
             color: #666;
             font-weight: 600;
         }
 
         .info-value {
-            font-size: clamp(24px, 3vw, 68px);
+            font-size: clamp(20px, 2vw, 42px);
             font-weight: 700;
             color: #1a1a1a;
         }
@@ -142,18 +142,18 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: clamp(20px, 2.5vw, 50px);
-            font-size: clamp(16px, 2vw, 38px);
+            margin-top: clamp(15px, 1.5vw, 30px);
+            font-size: clamp(14px, 1.4vw, 26px);
             color: #666;
             flex-wrap: wrap;
-            gap: clamp(10px, 1.5vw, 30px);
+            gap: clamp(10px, 1vw, 20px);
         }
 
         .market-status {
-            padding: clamp(8px, 1vw, 20px) clamp(20px, 2vw, 40px);
-            border-radius: 25px;
+            padding: clamp(6px, 0.6vw, 12px) clamp(15px, 1.2vw, 25px);
+            border-radius: 20px;
             font-weight: 700;
-            font-size: clamp(16px, 2vw, 38px);
+            font-size: clamp(14px, 1.4vw, 26px);
         }
 
         .market-open {
@@ -169,28 +169,28 @@
         /* チャート表示部 */
         .chart-container {
             background: white;
-            border-radius: 25px;
-            padding: clamp(30px, 3vw, 60px);
+            border-radius: 20px;
+            padding: clamp(20px, 1.8vw, 40px);
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-            margin-bottom: clamp(20px, 2vw, 40px);
+            margin-bottom: clamp(15px, 1.2vw, 25px);
         }
 
         .chart-wrapper {
             position: relative;
-            height: clamp(500px, 65vh, 1000px);
+            height: clamp(450px, 60vh, 800px);
         }
 
         /* フッター */
         footer {
             text-align: center;
             color: white;
-            font-size: clamp(16px, 2vw, 36px);
-            padding: clamp(20px, 2.5vw, 50px);
+            font-size: clamp(14px, 1.4vw, 24px);
+            padding: clamp(15px, 1.5vw, 30px);
             font-weight: 500;
         }
 
         footer p {
-            margin: clamp(8px, 1vw, 20px) 0;
+            margin: clamp(5px, 0.5vw, 10px) 0;
         }
 
         /* ローディング表示 */
@@ -208,9 +208,9 @@
         }
 
         .loading-spinner {
-            width: clamp(60px, 5vw, 120px);
-            height: clamp(60px, 5vw, 120px);
-            border: clamp(6px, 0.5vw, 12px) solid rgba(255, 255, 255, 0.3);
+            width: clamp(60px, 4vw, 100px);
+            height: clamp(60px, 4vw, 100px);
+            border: clamp(6px, 0.4vw, 10px) solid rgba(255, 255, 255, 0.3);
             border-top-color: white;
             border-radius: 50%;
             animation: spin 1s linear infinite;
@@ -228,57 +228,72 @@
         .error-message {
             background: #fee2e2;
             color: #dc2626;
-            padding: clamp(20px, 2.5vw, 50px);
-            border-radius: 15px;
-            margin: clamp(20px, 2vw, 40px) 0;
+            padding: clamp(15px, 1.5vw, 30px);
+            border-radius: 12px;
+            margin: clamp(15px, 1.2vw, 25px) 0;
             text-align: center;
             font-weight: 700;
-            font-size: clamp(18px, 2vw, 40px);
+            font-size: clamp(16px, 1.6vw, 28px);
         }
 
-        /* 超大画面対応 */
+        /* レスポンシブ対応 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .price-info {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .additional-info {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .chart-wrapper {
+                height: 50vh;
+                min-height: 350px;
+            }
+        }
+
+        /* 大画面最適化 */
         @media (min-width: 2560px) {
             body { 
-                padding: 60px; 
-            }
-            .container { 
-                max-width: 95%; 
+                padding: 30px; 
             }
             .stock-header {
-                padding: 80px;
+                padding: 40px;
             }
             .chart-container {
-                padding: 80px;
+                padding: 45px;
             }
             .chart-wrapper {
-                height: 75vh;
-                min-height: 900px;
+                height: 65vh;
+                min-height: 700px;
             }
         }
 
-        /* 4K/8K対応 */
+        /* 4K対応 */
         @media (min-width: 3840px) {
             body { 
-                padding: 80px; 
+                padding: 40px; 
             }
             .chart-wrapper {
-                height: 80vh;
-                min-height: 1200px;
+                height: 70vh;
+                min-height: 900px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- ローディング表示 -->
     <div id="loadingOverlay" class="loading-overlay">
         <div class="loading-spinner"></div>
     </div>
 
     <div class="container">
-        <!-- エラーメッセージ -->
         <div id="errorMessage" class="error-message hidden"></div>
 
-        <!-- ヘッダー部: 株価情報 -->
         <header class="stock-header">
             <div class="company-info">
                 <h1 id="companyName">日清オイリオグループ</h1>
@@ -317,14 +332,12 @@
             </div>
         </header>
 
-        <!-- チャート表示部 -->
         <main class="chart-container">
             <div class="chart-wrapper">
                 <canvas id="stockChart"></canvas>
             </div>
         </main>
 
-        <!-- フッター -->
         <footer>
             <p>※株価データは60分間隔で自動更新されます</p>
             <p>データ提供: Yahoo Finance</p>
@@ -336,18 +349,14 @@
         let cachedData = null;
         let lastFetchTime = null;
         const STOCK_SYMBOL = '2602.T';
-        const UPDATE_INTERVAL = 60 * 60 * 1000; // 60分
-        const POLL_INTERVAL = 30 * 1000; // 30秒
+        const UPDATE_INTERVAL = 60 * 60 * 1000;
+        const POLL_INTERVAL = 30 * 1000;
 
         function isMarketHours() {
             const now = new Date();
             const hours = now.getHours();
             const day = now.getDay();
-
-            if (day === 0 || day === 6) {
-                return false;
-            }
-
+            if (day === 0 || day === 6) return false;
             return hours >= 9 && hours < 16;
         }
 
@@ -517,11 +526,10 @@
                 c: item.close
             }));
 
-            // 画面サイズに応じたフォントサイズ
             const screenWidth = window.innerWidth;
-            const baseFontSize = screenWidth > 3840 ? 32 : screenWidth > 2560 ? 24 : screenWidth > 1920 ? 18 : 14;
-            const titleFontSize = screenWidth > 3840 ? 48 : screenWidth > 2560 ? 36 : screenWidth > 1920 ? 28 : 20;
-            const lineWidth = screenWidth > 2560 ? 3 : 2;
+            const baseFontSize = screenWidth > 3840 ? 22 : screenWidth > 2560 ? 18 : screenWidth > 1920 ? 16 : 14;
+            const titleFontSize = screenWidth > 3840 ? 32 : screenWidth > 2560 ? 26 : screenWidth > 1920 ? 22 : 18;
+            const lineWidth = screenWidth > 2560 ? 2.5 : 2;
 
             chart = new Chart(ctx, {
                 type: 'candlestick',
@@ -559,7 +567,7 @@
                                     size: titleFontSize,
                                     weight: 'bold'
                                 },
-                                padding: 20
+                                padding: 15
                             }
                         },
                         tooltip: {
@@ -569,7 +577,7 @@
                             bodyFont: {
                                 size: baseFontSize
                             },
-                            padding: 15,
+                            padding: 12,
                             callbacks: {
                                 label: function(context) {
                                     const point = context.raw;
@@ -629,11 +637,9 @@
             if (!cachedData || !lastFetchTime) {
                 return true;
             }
-
             if (!isMarketHours()) {
                 return false;
             }
-
             const timeSinceLastFetch = Date.now() - lastFetchTime;
             return timeSinceLastFetch >= UPDATE_INTERVAL;
         }
